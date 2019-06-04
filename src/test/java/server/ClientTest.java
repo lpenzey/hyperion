@@ -28,14 +28,14 @@ public class ClientTest {
     }
 
     @Test
-    public void canWriteToSocket() throws IOException {
+    public void canWriteToSocket() {
         PrintWriter writer = client.getWriter();
         writer.println("message");
         assertEquals("message\n", socketStub.getOutputStream().toString());
     }
 
     @Test
-    public void canCloseSocketConnection() throws IOException {
+    public void canCloseSocketConnection() {
         client.close();
 
         assertTrue(socketStub.isClosed());

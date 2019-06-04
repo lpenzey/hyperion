@@ -6,13 +6,11 @@ import java.io.OutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 
-public class SocketStub extends Socket {
-    private OutputStream outputStream;
-    private InputStream inputStream;
-    private String inputStub;
+class SocketStub extends Socket {
+    private final OutputStream outputStream;
+    private final InputStream inputStream;
 
-    public SocketStub(String inputStub) {
-        this.inputStub = inputStub;
+    SocketStub(String inputStub) {
         this.outputStream = new ByteArrayOutputStream();
         this.inputStream = new ByteArrayInputStream(inputStub.getBytes());
     }

@@ -5,7 +5,7 @@ import java.net.Socket;
 
 public class Client {
 
-    Socket clientSocket;
+    private final Socket clientSocket;
     private BufferedReader reader;
     private PrintWriter writer;
 
