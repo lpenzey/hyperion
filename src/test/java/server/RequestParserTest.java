@@ -5,7 +5,6 @@ import main.java.server.request.RequestParser;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +21,7 @@ public class RequestParserTest {
     }
 
     @Test
-    public void generatesHeaderFields() throws IOException {
+    public void generatesHeaderFields() {
         Request parsedRequest = requestParser.create(SIMPLE_GET);
         HashMap<String, String> requestHeaders = parsedRequest.getHeaders();
 

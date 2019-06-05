@@ -1,6 +1,5 @@
 package main.java.server.request;
 
-import java.io.IOException;
 import java.util.HashMap;
 
 public class RequestParser {

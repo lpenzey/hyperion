@@ -6,8 +6,6 @@ import main.java.server.request.RequestParser;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
@@ -28,7 +26,7 @@ public class RouterTest {
     }
 
     @Test
-    public void returnsNotFoundIfPathIsUnknown() throws IOException {
+    public void returnsNotFoundIfPathIsUnknown() {
         Request request = requestParser.create(UNKNOWN_REQUEST);
         String response = router.route(request);
 
@@ -36,7 +34,7 @@ public class RouterTest {
     }
 
     @Test
-    public void returnsOKIfPathIsKnown() throws IOException {
+    public void returnsOKIfPathIsKnown() {
         Request request = requestParser.create(KNOWN_REQUEST);
         String response = router.route(request);
 
@@ -44,7 +42,7 @@ public class RouterTest {
     }
 
     @Test
-    public void doesNotReturnOkIfPathIsUnknown() throws IOException {
+    public void doesNotReturnOkIfPathIsUnknown() {
         Request request = requestParser.create(UNKNOWN_REQUEST);
         String response = router.route(request);
 
