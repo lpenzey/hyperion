@@ -2,6 +2,7 @@ package main.java.server;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.logging.Level;
 
 public class Client {
 
@@ -25,7 +26,7 @@ public class Client {
         try {
             clientSocket.close();
         } catch(IOException error) {
-            System.err.println(error);
+            ServerLogger.serverLogger.log(Level.INFO, "Error: " + error);
         }
     }
 }
