@@ -12,23 +12,25 @@ A web server that implements HTTP written in Java.
 Clone this repo to your local machine: https://github.com/lpenzey/hyperion.git
 
 ### Usage
-1. Start the server: In a terminal window, cd into the project directory's src folder:
+1 - In the terminal, navigate to the cloned project's root folder and run the following command to create a package:
 ```
-$ cd hyperion/src
+$ ./gradlew jar
 ```
-Then run the following command to compile and run the server, making sure to pass in a port number 
-(running the below command will start the server on port 5000)
+2 - Then run the following to build the project:
 ```
-$ javac main/java/server/Server.java && java main/java/server/Server 5000
+$ ./gradlew build
 ```
-2. Once running on the specified port, enter the following in a web browser 
+3 - Once built run the following to start the server on a given port (port 5000 in the example below):
 ```
-127.0.0.1:5000
+$ java -jar build/libs/hyperion.jar 5000
 ```
-This will return a 404 Not Found code. To receive a 200 OK response, enter the following:
+4 - Send a request to the server on the same port:
 ```
-127.0.0.1:5000/simple_get
+localhost:5000/simple_get
 ```
+
+***Note that in the server's current phase it only returns a 200 OK status and no body when given "/simple_get" as the path. 
+All other requests will return 404 Not Found.***
 
 ### Running the tests
 In the terminal window, navigate to the project's root folder and run the following command:
