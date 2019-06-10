@@ -1,12 +1,12 @@
 package main.java.server;
 
-import main.java.server.request.Request;
-import main.java.server.request.RequestParser;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.logging.Level;
+
+import main.java.server.request.Request;
+import main.java.server.request.RequestParser;
 
 
 class ProtocolRunner implements Runnable {

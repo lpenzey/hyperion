@@ -1,10 +1,10 @@
 package main.java.server;
 
+import java.util.HashMap;
 import main.java.server.request.Request;
 
-import java.util.HashMap;
-
-import static main.java.server.StatusCodes.*;
+import static main.java.server.StatusCodes.NOT_FOUND;
+import static main.java.server.StatusCodes.OK;
 
 public class Router {
 
