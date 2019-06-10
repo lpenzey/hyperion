@@ -1,7 +1,22 @@
-apply plugin: 'java'
-
+plugins {
+    id 'application'
+    id 'java'
+}
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClassName = '.Server'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'main/java/server/Server'
+        )
+    }
+
 }
 
 dependencies {
