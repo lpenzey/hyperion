@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lpenzey/hyperion.svg?branch=master)](https://travis-ci.org/lpenzey/hyperion) [![Maintainability](https://api.codeclimate.com/v1/badges/60d82bfebc6fec4f85d7/maintainability)](https://codeclimate.com/github/lpenzey/hyperion/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/60d82bfebc6fec4f85d7/test_coverage)](https://codeclimate.com/github/lpenzey/hyperion/test_coverage)
+
 
 
 ### Hyperion HTTP Server
