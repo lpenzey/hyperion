@@ -16,9 +16,7 @@ public class Client {
         this.writer = new PrintWriter(new OutputStreamWriter(clientSocket.getOutputStream()), true);
     }
 
-    public BufferedReader getReader() {
-        return reader;
-    }
+    public BufferedReader getReader() { return reader; }
 
     public PrintWriter getWriter() { return writer; }
 
@@ -26,7 +24,7 @@ public class Client {
         try {
             clientSocket.close();
         } catch(IOException error) {
-            ServerLogger.serverLogger.log(Level.INFO, "Error: " + error);
+            ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);
         }
     }
 }

@@ -18,7 +18,7 @@ class Server {
             try {Server server = new Server(port);
                 server.start();
             } catch (IOException error) {
-                ServerLogger.serverLogger.log(Level.INFO, "Error: " + error);
+                ServerLogger.serverLogger.log(Level.SEVERE, "Error: " + error);
         }
 
     }
@@ -34,7 +34,7 @@ class Server {
         serverSocket.close();
     }
 
-    private void stop() throws IOException {
+    private void stop() {
         serverIsRunning = false;
     }
 }
