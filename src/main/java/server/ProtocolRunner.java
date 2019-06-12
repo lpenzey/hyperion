@@ -7,11 +7,12 @@ import java.util.logging.Level;
 
 import main.java.server.request.Request;
 import main.java.server.request.RequestParser;
+import main.java.server.router.ServerRouter;
 
 
 class ProtocolRunner implements Runnable {
     private final RequestParser requestParser = new RequestParser();
-    private final Router router = new Router();
+    private final ServerRouter router = new ServerRouter();
     private final Client client;
     private final BufferedReader in;
     private final PrintWriter out;
@@ -27,12 +28,13 @@ class ProtocolRunner implements Runnable {
             String input = in.readLine();
             while(input != null) {
                 Request request = requestParser.create(input);
-                String response = router.route(request);
-                out.print(response);
+                Response response = router.route(request);
+                out.print(response.getStatusLine());
                 out.flush();
                 client.close();
             }
         } catch(IOException error) {
-            ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);        }
+            ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);
+        }
     }
 }
