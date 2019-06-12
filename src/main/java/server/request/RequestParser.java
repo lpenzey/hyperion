@@ -1,36 +1,35 @@
 package main.java.server.request;
 
-import java.util.HashMap;
-
 public class RequestParser {
     private static final int REQUEST_METHOD_INDEX = 0;
     private static final int REQUEST_PATH_INDEX = 1;
     private static final int REQUEST_VERSION_INDEX = 2;
 
     public Request create(String incomingRequest) {
-        String[] segmentedRequest = incomingRequest.split("\r\n")[0].split(" ");
-        Request request = new Request();
-        HashMap<String, String> headers = new HashMap<>();
-        request.setHeaders(buildHeaders(segmentedRequest, headers));
-        return request;
+        String[] segmentedStatusLine = incomingRequest.split("\r\n")[0].split(" ");
+        StatusLine requestStatusLine = buildStatusLine(segmentedStatusLine);
+
+        return new Request(requestStatusLine);
     }
 
-    private HashMap<String, String> buildHeaders(String[] segmentedRequest, HashMap<String, String> headers) {
-        headers.put("method", getMethod(segmentedRequest));
-        headers.put("path", getPath(segmentedRequest));
-        headers.put("version", getVersion(segmentedRequest));
-        return headers;
+    private StatusLine buildStatusLine(String[] segmentedStatusLine) {
+        StatusLine requestStatusLine = new StatusLine();
+        requestStatusLine.setMethod(getMethod(segmentedStatusLine));
+        requestStatusLine.setPath(getPath(segmentedStatusLine));
+        requestStatusLine.setVersion(getVersion(segmentedStatusLine));
+
+        return requestStatusLine;
     }
 
-    private String getMethod(String[] segmentedRequest) {
-        return segmentedRequest[REQUEST_METHOD_INDEX];
+    private String getMethod(String[] segmentedStatusLine) {
+        return segmentedStatusLine[REQUEST_METHOD_INDEX];
     }
 
-    private String getPath(String[] segmentedRequest) {
-        return segmentedRequest[REQUEST_PATH_INDEX];
+    private String getPath(String[] segmentedStatusLine) {
+        return segmentedStatusLine[REQUEST_PATH_INDEX];
     }
 
-    private String getVersion(String[] segmentedRequest) {
-        return segmentedRequest[REQUEST_VERSION_INDEX];
+    private String getVersion(String[] segmentedStatusLine) {
+        return segmentedStatusLine[REQUEST_VERSION_INDEX];
     }
 }
