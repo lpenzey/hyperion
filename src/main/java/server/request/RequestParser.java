@@ -5,11 +5,14 @@ public class RequestParser {
     private static final int REQUEST_PATH_INDEX = 1;
     private static final int REQUEST_VERSION_INDEX = 2;
 
-    public Request create(String incomingRequest) {
-        String[] segmentedStatusLine = incomingRequest.split("\r\n")[0].split(" ");
-        StatusLine requestStatusLine = buildStatusLine(segmentedStatusLine);
-
-        return new Request(requestStatusLine);
+    public Request create(String incomingRequest) throws RequestParseException {
+        try {
+            String[] segmentedStatusLine = incomingRequest.split("\r\n")[0].split(" ");
+            StatusLine requestStatusLine = buildStatusLine(segmentedStatusLine);
+            return new Request(requestStatusLine);
+        } catch (Exception e) {
+            throw new RequestParseException(e);
+        }
     }
 
     private StatusLine buildStatusLine(String[] segmentedStatusLine) {

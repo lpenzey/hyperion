@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.util.logging.Level;
 
 import main.java.server.request.Request;
+import main.java.server.request.RequestParseException;
 import main.java.server.request.RequestParser;
 import main.java.server.router.ServerRouter;
 
@@ -33,7 +34,7 @@ class ProtocolRunner implements Runnable {
                 out.flush();
                 client.close();
             }
-        } catch(IOException error) {
+        } catch(IOException | RequestParseException error) {
             ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);
         }
     }

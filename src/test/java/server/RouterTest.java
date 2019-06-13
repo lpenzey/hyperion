@@ -2,6 +2,7 @@ package test.java.server;
 
 import main.java.server.Response;
 import main.java.server.request.Request;
+import main.java.server.request.RequestParseException;
 import main.java.server.request.RequestParser;
 import main.java.server.router.ServerRouter;
 import org.junit.Before;
@@ -27,7 +28,7 @@ public class RouterTest {
     }
 
     @Test
-    public void returnsNotFoundIfPathIsUnknown() {
+    public void returnsNotFoundIfPathIsUnknown() throws RequestParseException {
         Request request = requestParser.create(UNKNOWN_REQUEST);
         Response response = router.route(request);
 
@@ -35,7 +36,7 @@ public class RouterTest {
     }
 
     @Test
-    public void returnsOKIfPathIsKnown() {
+    public void returnsOKIfPathIsKnown() throws RequestParseException {
         Request request = requestParser.create(KNOWN_GET_REQUEST);
         Response response = router.route(request);
 
@@ -43,7 +44,7 @@ public class RouterTest {
     }
 
     @Test
-    public void doesNotReturnOkIfPathIsUnknown() {
+    public void doesNotReturnOkIfPathIsUnknown() throws RequestParseException {
         Request request = requestParser.create(UNKNOWN_REQUEST);
         Response response = router.route(request);
 
@@ -51,7 +52,7 @@ public class RouterTest {
     }
 
     @Test
-    public void returnsHeaderWithNoBodyForHEADRequest() {
+    public void returnsHeaderWithNoBodyForHEADRequest() throws RequestParseException {
         Request request = requestParser.create(HEAD_REQUEST);
         Response response = router.route(request);
 
