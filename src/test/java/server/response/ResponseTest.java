@@ -1,6 +1,6 @@
 package test.java.server;
 
-import main.java.server.Response;
+import main.java.server.response.Response;
 import org.junit.Test;
 
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
