@@ -1,6 +1,6 @@
 package main.java.handlers;
 
-import main.java.server.Response;
+import main.java.server.response.Response;
 import main.java.server.request.Request;
 
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
@@ -14,6 +14,11 @@ public class DefaultHandler implements Handler {
 
     @Override
     public String getPath() {
+        return null;
+    }
+
+    @Override
+    public String[] allowedMethods() {
         return null;
     }
 }
