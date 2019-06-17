@@ -19,6 +19,10 @@ public class RequestParserTest {
     private static final String SIMPLE_GET = "GET /simple_get HTTP/1.1\r\n";
     private static final String MALFORMED_REQUEST = "GET /simple_get\r\n";
     private static final String SIMPLE_GET_PATH = "/simple_get";
+    private static final String REQUEST_WITH_HEADERS = "GET /a_path HTTP/1.1\r\n" +
+            "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3)\n" +
+            "Host: isitchristmas.com\n" +
+            "Connection: Keep-Alive\r\n\r\n";
 
     @Before
     public void setUp() {
@@ -33,6 +37,16 @@ public class RequestParserTest {
         assertEquals(GET, parsedRequest.getRequestMethod());
         assertEquals(SIMPLE_GET_PATH, parsedRequest.getRequestPath());
         assertEquals(VERSION, parsedRequest.getRequestVersion());
+    }
+
+    @Test
+    public void generatesParsedRequestWithHeaders() throws RequestParseException {
+        Request parsedRequest = requestParser.create(REQUEST_WITH_HEADERS);
+
+        assertEquals("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3)", parsedRequest.getHeaders().get("User-Agent"));
+        assertEquals("isitchristmas.com", parsedRequest.getHeaders().get("Host"));
+        assertEquals("Keep-Alive", parsedRequest.getHeaders().get("Connection"));
+
     }
 
     @Test
