@@ -7,30 +7,52 @@ public class RequestParser {
     private static final int REQUEST_PATH_INDEX = 1;
     private static final int REQUEST_VERSION_INDEX = 2;
 
-    public Request create(String incomingRequest) {
-        String[] segmentedRequest = incomingRequest.split("\r\n")[0].split(" ");
-        Request request = new Request();
-        HashMap<String, String> headers = new HashMap<>();
-        request.setHeaders(buildHeaders(segmentedRequest, headers));
-        return request;
+    public Request create(String incomingRequest) throws RequestParseException {
+        try {
+            StatusLine requestStatusLine = buildStatusLine(incomingRequest);
+            Headers requestHeaders = buildHeaders(incomingRequest);
+            return new Request(requestStatusLine, requestHeaders);
+        } catch (Exception e) {
+            throw new RequestParseException(e);
+        }
     }
 
-    private HashMap<String, String> buildHeaders(String[] segmentedRequest, HashMap<String, String> headers) {
-        headers.put("method", getMethod(segmentedRequest));
-        headers.put("path", getPath(segmentedRequest));
-        headers.put("version", getVersion(segmentedRequest));
-        return headers;
+    private StatusLine buildStatusLine(String incomingRequest) {
+        String[] segmentedStatusLine = incomingRequest.split("\r\n")[0].split(" ");
+
+        StatusLine requestStatusLine = new StatusLine();
+
+        requestStatusLine.setMethod(getMethod(segmentedStatusLine));
+        requestStatusLine.setPath(getPath(segmentedStatusLine));
+        requestStatusLine.setVersion(getVersion(segmentedStatusLine));
+
+        return requestStatusLine;
     }
 
-    private String getMethod(String[] segmentedRequest) {
-        return segmentedRequest[REQUEST_METHOD_INDEX];
+    private Headers buildHeaders(String incomingRequest) {
+        String[] segmentedHeaders = incomingRequest.split("\r\n\r\n")[0].split("\n");
+        Headers requestHeaders = new Headers();
+
+        HashMap<String, String> headersMap = new HashMap<String, String>();
+        for (int i = 1; i < segmentedHeaders.length; i++) {
+            String[] header = segmentedHeaders[i].split(":");
+            headersMap.put(header[0].trim(), header[1].trim());
+        }
+
+        requestHeaders.setHeaders(headersMap);
+
+        return requestHeaders;
     }
 
-    private String getPath(String[] segmentedRequest) {
-        return segmentedRequest[REQUEST_PATH_INDEX];
+    private String getMethod(String[] segmentedStatusLine) {
+        return segmentedStatusLine[REQUEST_METHOD_INDEX];
     }
 
-    private String getVersion(String[] segmentedRequest) {
-        return segmentedRequest[REQUEST_VERSION_INDEX];
+    private String getPath(String[] segmentedStatusLine) {
+        return segmentedStatusLine[REQUEST_PATH_INDEX];
+    }
+
+    private String getVersion(String[] segmentedStatusLine) {
+        return segmentedStatusLine[REQUEST_VERSION_INDEX];
     }
 }

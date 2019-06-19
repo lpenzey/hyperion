@@ -4,22 +4,31 @@ import java.util.HashMap;
 
 public class Request {
 
-    private HashMap<String, String> headers;
-    private String body;
+    private StatusLine requestStatusLine;
+    private Headers requestHeaders;
 
-    public void setHeaders(HashMap<String, String> headers) {
-        this.headers = headers;
+    public Request(StatusLine requestStatusLine) {
+        this.requestStatusLine = requestStatusLine;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public Request(StatusLine requestStatusLine, Headers requestHeaders) {
+        this.requestStatusLine = requestStatusLine;
+        this.requestHeaders = requestHeaders;
+    }
+
+    public String getRequestPath() {
+        return requestStatusLine.getPath();
+    }
+
+    public String getRequestMethod() {
+        return requestStatusLine.getMethod();
+    }
+
+    public String getRequestVersion() {
+        return requestStatusLine.getVersion();
     }
 
     public HashMap<String, String> getHeaders() {
-        return headers;
-    }
-
-    public String getBody() {
-        return body;
+        return requestHeaders.getHeaders();
     }
 }

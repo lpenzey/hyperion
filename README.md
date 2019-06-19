@@ -31,8 +31,11 @@ $ java -jar build/libs/hyperion.jar 5000
 localhost:5000/simple_get
 ```
 
-***Note that in the server's current phase it only returns a 200 OK status and no body when given "/simple_get" as the path. 
-All other requests will return 404 Not Found.***
+#### Working Features
+
+1. Executing a simple GET request
+2. Executing a simple HEAD request
+3. Returning a not found response
 
 ### Running the tests
 In the terminal window, navigate to the project's root folder and run the following command:
