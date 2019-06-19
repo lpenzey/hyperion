@@ -24,7 +24,7 @@ $ ./gradlew build
 ```
 3 - Once built run the following to start the server on a given port (port 5000 in the example below):
 ```
-$ java -jar build/libs/hyperion.jar 5000
+$ java -jar build/libs/hyperion.jar -port=5000
 ```
 4 - Send a request to the server on the same port:
 ```
@@ -36,6 +36,8 @@ localhost:5000/simple_get
 1. Executing a simple GET request
 2. Executing a simple HEAD request
 3. Returning a not found response
+4. Simple OPTIONS request
+5. Method not allowed response
 
 ### Running the tests
 In the terminal window, navigate to the project's root folder and run the following command:
