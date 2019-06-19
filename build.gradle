@@ -16,10 +16,14 @@ jar {
                 'Main-Class': 'main/java/server/Server'
         )
     }
+    doFirst {
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    }
 
 }
 
 dependencies {
+    compile 'com.beust:jcommander:1.72'
     testCompile 'junit:junit:4.12'
 }
 
