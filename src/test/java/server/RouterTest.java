@@ -1,6 +1,6 @@
 package test.java.server;
 
-import main.java.server.Response;
+import main.java.server.response.Response;
 import main.java.server.request.Request;
 import main.java.server.request.RequestParseException;
 import main.java.server.request.RequestParser;

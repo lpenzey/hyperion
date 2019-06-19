@@ -1,8 +1,8 @@
 package main.java.handlers;
 
 import main.java.server.HTTPMessageComponents.HTTPMethods;
-import main.java.server.request.Request;
 import main.java.server.response.Response;
+import main.java.server.request.Request;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -12,31 +12,34 @@ import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
 import static main.java.server.HTTPMessageComponents.StatusCodes.NOT_ALLOWED;
 import static main.java.server.HTTPMessageComponents.StatusCodes.OK;
 
-public class GetWithBodyHandler implements Handler {
+public class MethodOptions2Handler implements Handler {
 
     @Override
     public Response generateResponseForRequest(Request request) {
         if (!methodIsAllowed(request.getRequestMethod())) {
             return new Response(VERSION + SP + NOT_ALLOWED + CRLF, buildHeaders());
         }
-        return new Response(VERSION + SP + OK + CRLF);
+        return new Response(VERSION + SP + OK + CRLF, buildHeaders());
     }
 
     @Override
     public String getPath() {
-        return "/get_with_body";
+        return "/method_options2";
     }
 
     @Override
     public String[] allowedMethods() {
-        return new String[]{HTTPMethods.HEAD,
-                            HTTPMethods.OPTIONS};
+        return new String[]{HTTPMethods.GET,
+                            HTTPMethods.HEAD,
+                            HTTPMethods.OPTIONS,
+                            HTTPMethods.PUT,
+                            HTTPMethods.POST};
     }
 
     private HashMap<String, String> buildHeaders() {
         HashMap<String, String> headers = new HashMap<>();
-        String allowedMethods = String.join(",", allowedMethods());
-        headers.put("Allow", allowedMethods);
+        String allowedHeaders = String.join(",", allowedMethods());
+        headers.put("Allow", allowedHeaders);
         return headers;
     }
 

@@ -8,6 +8,8 @@ public class HandlerCollector {
     public static List<Handler> ALL_HANDLERS = Arrays.asList(
             new SimpleGetHandler(),
             new DefaultHandler(),
-            new GetWithBodyHandler()
+            new GetWithBodyHandler(),
+            new MethodOptionsHandler(),
+            new MethodOptions2Handler()
     );
 }

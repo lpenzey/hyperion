@@ -8,6 +8,8 @@ import java.util.logging.Level;
 import main.java.server.request.Request;
 import main.java.server.request.RequestParseException;
 import main.java.server.request.RequestParser;
+import main.java.server.response.Response;
+import main.java.server.response.ResponseFormatter;
 import main.java.server.router.ServerRouter;
 
 
@@ -30,7 +32,8 @@ class ProtocolRunner implements Runnable {
             while(input != null) {
                 Request request = requestParser.create(input);
                 Response response = router.route(request);
-                out.print(response.getStatusLine());
+                ResponseFormatter formatter = new ResponseFormatter(response);
+                out.print(formatter.stringifyResponse());
                 out.flush();
                 client.close();
             }
