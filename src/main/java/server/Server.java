@@ -1,9 +1,12 @@
 package main.java.server;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.ParameterException;
+import main.java.server.CLI.Args;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
 
 class Server {
     private final Integer port;
@@ -13,14 +16,17 @@ class Server {
         this.port = port;
     }
 
-    public static void main(String[] args) throws IOException {
-            int port = Integer.parseInt(args[0]);
-            try {Server server = new Server(port);
-                server.start();
-            } catch (IOException error) {
-                ServerLogger.serverLogger.log(Level.SEVERE, "Error: " + error);
-        }
+    public static void main(String[] args) {
+            Args clArgs = new Args();
+            JCommander jcParser = new JCommander(clArgs);
 
+            try {
+                jcParser.parse(args);
+                Server server = new Server(clArgs.getPort());
+                server.start();
+            } catch (ParameterException | IOException e) {
+                System.out.println(e.getMessage());
+            }
     }
 
     private void start() throws IOException {
