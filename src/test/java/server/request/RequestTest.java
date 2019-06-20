@@ -14,18 +14,11 @@ public class RequestTest {
     private Request request;
 
 
-    @Before
-    public void setUp() {
-        requestStatusLine = new StatusLine();
-    }
-
     @Test
     public void statusLineIsCreatedCorrectly() {
         String SIMPLE_GET_PATH = "/simple_get";
+        requestStatusLine = new StatusLine(GET, SIMPLE_GET_PATH, VERSION);
 
-        requestStatusLine.setMethod(GET);
-        requestStatusLine.setPath(SIMPLE_GET_PATH);
-        requestStatusLine.setVersion(VERSION);
 
         assertEquals(GET, requestStatusLine.getMethod());
         assertEquals(SIMPLE_GET_PATH, requestStatusLine.getPath());
