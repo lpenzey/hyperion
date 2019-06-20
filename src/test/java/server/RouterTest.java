@@ -1,62 +1,35 @@
 package test.java.server;
 
-import main.java.server.response.Response;
+import main.java.application.Handler;
 import main.java.server.request.Request;
-import main.java.server.request.RequestParseException;
-import main.java.server.request.RequestParser;
-import main.java.server.router.ServerRouter;
+import main.java.server.request.StatusLine;
+import test.java.server.response.RoutesStub.HandlersStub;
+import main.java.server.Router;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertTrue;
+import static main.java.server.HTTPMessageComponents.HTTPMethods.GET;
+import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
 
 public class RouterTest {
-
-    private ServerRouter router;
-    private RequestParser requestParser;
-
-    private static final String KNOWN_GET_REQUEST = "GET /simple_get HTTP/1.1\r\n";
-    private static final String UNKNOWN_REQUEST = "OPTIONS /huh? HTTP/1.1\r\n";
-    private static final String HEAD_REQUEST = "HEAD /get_with_body HTTP/1.1\r\n";
-    private static final String OK_RESPONSE = "HTTP/1.1 200 OK\r\n";
-    private static final String NOT_FOUND_RESPONSE = "HTTP/1.1 404 Not Found\r\n";
+    private Router router;
 
     @Before
     public void setUp() {
-        router = new ServerRouter();
-        requestParser = new RequestParser();
+        router = new Router();
     }
 
     @Test
-    public void returnsNotFoundIfPathIsUnknown() throws RequestParseException {
-        Request request = requestParser.create(UNKNOWN_REQUEST);
-        Response response = router.route(request);
+    public void addGetRouteToRouter()  {
+        HandlersStub handlers = new HandlersStub();
+        Handler handler = handlers.SimpleGet;
+        Request request = new Request(new StatusLine(GET, "/test_path", VERSION));
 
-        assertEquals(NOT_FOUND_RESPONSE, response.getStatusLine());
+        router.get("/test_path", handler);
+
+        assertTrue(router.routes().containsKey("/test_path"));
     }
 
-    @Test
-    public void returnsOKIfPathIsKnown() throws RequestParseException {
-        Request request = requestParser.create(KNOWN_GET_REQUEST);
-        Response response = router.route(request);
-
-        assertEquals(OK_RESPONSE, response.getStatusLine());
-    }
-
-    @Test
-    public void doesNotReturnOkIfPathIsUnknown() throws RequestParseException {
-        Request request = requestParser.create(UNKNOWN_REQUEST);
-        Response response = router.route(request);
-
-        assertNotEquals(OK_RESPONSE, response.getStatusLine());
-    }
-
-    @Test
-    public void returnsHeaderWithNoBodyForHEADRequest() throws RequestParseException {
-        Request request = requestParser.create(HEAD_REQUEST);
-        Response response = router.route(request);
-
-        assertEquals(OK_RESPONSE, response.getStatusLine());
-    }
 }
 
