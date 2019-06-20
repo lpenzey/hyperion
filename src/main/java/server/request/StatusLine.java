@@ -5,15 +5,9 @@ public class StatusLine {
     private String path;
     private String version;
 
-    public void setMethod(String method) {
+    public StatusLine(String method, String path, String version) {
         this.method = method;
-    }
-
-    public void setPath(String path) {
         this.path = path;
-    }
-
-    public void setVersion(String version) {
         this.version = version;
     }
 
