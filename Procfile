@@ -1,1 +1,1 @@
-"web: java -jar build/libs/hyperion.jar -port=$PORT"
+web: java -jar build/libs/hyperion.jar -p $PORT
