@@ -2,6 +2,8 @@ package main.java.server.request;
 
 import java.util.HashMap;
 
+import static main.java.server.HTTPMessageComponents.HTTPSyntax.CRLF;
+
 public class RequestParser {
     private static final int REQUEST_METHOD_INDEX = 0;
     private static final int REQUEST_PATH_INDEX = 1;
@@ -18,19 +20,13 @@ public class RequestParser {
     }
 
     private StatusLine buildStatusLine(String incomingRequest) {
-        String[] segmentedStatusLine = incomingRequest.split("\r\n")[0].split(" ");
+        String[] segmentedStatusLine = incomingRequest.split(CRLF)[0].split(" ");
 
-        StatusLine requestStatusLine = new StatusLine();
-
-        requestStatusLine.setMethod(getMethod(segmentedStatusLine));
-        requestStatusLine.setPath(getPath(segmentedStatusLine));
-        requestStatusLine.setVersion(getVersion(segmentedStatusLine));
-
-        return requestStatusLine;
+        return new StatusLine(getMethod(segmentedStatusLine), getPath(segmentedStatusLine), getVersion(segmentedStatusLine));
     }
 
     private Headers buildHeaders(String incomingRequest) {
-        String[] segmentedHeaders = incomingRequest.split("\r\n\r\n")[0].split("\n");
+        String[] segmentedHeaders = incomingRequest.split(CRLF + CRLF)[0].split("\n");
         Headers requestHeaders = new Headers();
 
         HashMap<String, String> headersMap = new HashMap<String, String>();

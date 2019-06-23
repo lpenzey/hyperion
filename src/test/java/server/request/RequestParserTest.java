@@ -8,6 +8,7 @@ import org.junit.Test;
 
 
 import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
 import static main.java.server.HTTPMessageComponents.HTTPMethods.GET;
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.VERSION;
 import static org.junit.Assert.assertEquals;
@@ -53,7 +54,7 @@ public class RequestParserTest {
     public void throwsRequestParseExceptionWhenRequestLineIsMalformed() {
         try {
             requestParser.create(MALFORMED_REQUEST);
-            assertTrue(false);
+            fail();
         } catch (RequestParseException e) {
             assertEquals(RequestParseException.class, e.getClass());
         }
