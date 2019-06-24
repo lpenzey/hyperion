@@ -29,11 +29,11 @@ public class ResponseFormatterTest {
         headers.put("Allow", "GET, HEAD, OPTIONS");
         headers.put("Content-Type", "text/html; charset=utf-8");
 
-        Response response = new Response(statusLine, headers);
+        Response response = new Response(statusLine, headers, "hey");
         ResponseFormatter formatter = new ResponseFormatter(response);
 
         String fullResponse = formatter.stringifyResponse();
-        String expectedResponse = "HTTP/1.1 200 OK\r\nAllow:GET, HEAD, OPTIONS\r\nContent-Type:text/html; charset=utf-8\r\n";
+        String expectedResponse = "HTTP/1.1 200 OK\r\nAllow:GET, HEAD, OPTIONS\r\nContent-Type:text/html; charset=utf-8\r\n\r\nhey";
 
         assertEquals(expectedResponse, fullResponse);
     }

@@ -16,7 +16,7 @@ public class ResponseFormatter {
         String responseString = response.getStatusLine();
         if (response.getHeaders() != null) {
             String stringHeaders = convertHeadersToString(response.getHeaders());
-            return responseString + stringHeaders + CRLF;
+            return responseString + stringHeaders + CRLF + CRLF + response.getBody();
         }
 
         return responseString;

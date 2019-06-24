@@ -18,7 +18,9 @@ public class ResponseBuilder {
 
 
     Response notFound(Request request, TreeMap<String, HashMap<String, Handler>> routes) {
-        return new Response(VERSION + SP + NOT_FOUND + CRLF);
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("ALLOW", "GET,HEAD");
+        return new Response(VERSION + SP + NOT_FOUND + CRLF, headers, "404 Not Found");
     }
 
     private HashMap<String, String> addAllowHeaders(HashMap<String, Handler> route) {
@@ -30,7 +32,8 @@ public class ResponseBuilder {
     }
 
     Response notAllowed(Request request, TreeMap<String, HashMap<String, Handler>> routes) {
-        return new Response(VERSION + SP + NOT_ALLOWED + CRLF, addAllowHeaders(routes.get(request.getRequestPath())));
+        HashMap<String, String> headers = addAllowHeaders(routes.get(request.getRequestPath()));
+        return new Response(VERSION + SP + NOT_ALLOWED + CRLF, headers, "301 Method Not Allowed");
 
     }
 }
