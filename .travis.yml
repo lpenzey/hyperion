@@ -13,6 +13,7 @@ cache:
 
 script:
   - ./gradlew test
+  - ./acceptance-tests.sh
 
 deploy:
   provider: heroku
