@@ -25,7 +25,7 @@ public class Client {
         try {
             int bytes_read = reader.read(charBuffer);
             return new String(charBuffer, 0, bytes_read);
-        } catch (IOException error) {
+        } catch (IOException | StringIndexOutOfBoundsException error) {
             ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);
             return null;
         }
