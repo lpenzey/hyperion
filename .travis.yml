@@ -13,6 +13,7 @@ cache:
 
 script:
   - ./gradlew test
+  - java -jar build/libs/hyperion.jar -port=5000 &
   - ./acceptance-tests.sh
 
 deploy:
