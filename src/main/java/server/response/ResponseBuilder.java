@@ -1,26 +1,44 @@
 package main.java.server.response;
 
-import main.java.application.Handler;
 import main.java.server.request.Request;
 
 import java.util.HashMap;
 import java.util.Set;
-import java.util.TreeMap;
 
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
 import static main.java.server.HTTPMessageComponents.StatusCodes.*;
 
 public class ResponseBuilder {
 
-    public Response build(Request request, String body, TreeMap<String, HashMap<String, Handler>> routes) {
-        return new Response(VERSION + SP + OK + CRLF, addAllowHeaders(routes.get(request.getRequestPath())), body);
+    public Response build(Request request, String body, HashMap<String, Handler> pathMethods) {
+
+        return new Response(VERSION + SP + OK + CRLF, addAllowHeaders(pathMethods), body);
     }
 
+    public Response redirect(Request request, String redirectLocation) {
+        HashMap<String, String> headers = addLocationHeader(redirectLocation);
 
-    Response notFound(Request request, TreeMap<String, HashMap<String, Handler>> routes) {
+        return new Response(VERSION + SP + REDIRECT + CRLF, headers, "");
+    }
+
+    public Response notFound(Request request) {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("ALLOW", "GET,HEAD");
-        return new Response(VERSION + SP + NOT_FOUND + CRLF, headers, "404 Not Found");
+
+        return new Response(VERSION + SP + NOT_FOUND + CRLF, headers, NOT_FOUND);
+    }
+
+    public Response notAllowed(Request request, HashMap<String, Handler> pathMethods) {
+        HashMap<String, String> headers = addAllowHeaders(pathMethods);
+
+        return new Response(VERSION + SP + NOT_ALLOWED + CRLF, headers, "");
+    }
+
+    private HashMap<String, String> addLocationHeader(String redirectLocation) {
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Location", redirectLocation);
+
+        return headers;
     }
 
     private HashMap<String, String> addAllowHeaders(HashMap<String, Handler> route) {
@@ -28,12 +46,7 @@ public class ResponseBuilder {
         Set<String> methodSet = route.keySet();
         String allowedMethods = String.join(",", methodSet);
         headers.put("Allow", allowedMethods);
+
         return headers;
-    }
-
-    Response notAllowed(Request request, TreeMap<String, HashMap<String, Handler>> routes) {
-        HashMap<String, String> headers = addAllowHeaders(routes.get(request.getRequestPath()));
-        return new Response(VERSION + SP + NOT_ALLOWED + CRLF, headers, "301 Method Not Allowed");
-
     }
 }
