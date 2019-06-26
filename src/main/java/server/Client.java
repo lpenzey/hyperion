@@ -20,6 +20,17 @@ public class Client {
 
     public PrintWriter getWriter() { return writer; }
 
+    public String chunkStream() {
+        char[] charBuffer = new char[100000];
+        try {
+            int bytes_read = reader.read(charBuffer);
+            return new String(charBuffer, 0, bytes_read);
+        } catch (IOException error) {
+            ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);
+            return null;
+        }
+    }
+
     public void close() {
         try {
             clientSocket.close();
