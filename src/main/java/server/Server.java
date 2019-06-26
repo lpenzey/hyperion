@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-class Server {
+public class Server {
     private App app;
     private Integer port;
     private boolean serverIsRunning = true;
@@ -23,7 +23,7 @@ class Server {
     public static void main(String[] args) {
             Args clArgs = new Args();
             JCommander jcParser = new JCommander(clArgs);
-            App app = new App(Routes.getROUTES());
+            App app = new App(Routes.ROUTES);
 
             try {
                 jcParser.parse(args);
