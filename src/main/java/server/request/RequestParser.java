@@ -13,7 +13,8 @@ public class RequestParser {
         try {
             StatusLine requestStatusLine = buildStatusLine(incomingRequest);
             Headers requestHeaders = buildHeaders(incomingRequest);
-            return new Request(requestStatusLine, requestHeaders);
+            String requestBody = buildBody(incomingRequest);
+            return new Request(requestStatusLine, requestHeaders, requestBody);
         } catch (Exception e) {
             throw new RequestParseException(e);
         }
@@ -38,6 +39,14 @@ public class RequestParser {
         requestHeaders.setHeaders(headersMap);
 
         return requestHeaders;
+    }
+
+    private String buildBody(String incomingRequest) {
+        String[] segmentedRequest = incomingRequest.split(CRLF + CRLF);
+        if (segmentedRequest.length > 1) {
+            return segmentedRequest[1];
+        }
+        return "";
     }
 
     private String getMethod(String[] segmentedStatusLine) {
