@@ -1,7 +1,7 @@
 package test.java.server.response;
 
 import main.java.application.App;
-import main.java.application.Handler;
+import main.java.server.response.Handler;
 
 import java.util.HashMap;
 import java.util.TreeMap;

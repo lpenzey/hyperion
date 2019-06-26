@@ -1,6 +1,6 @@
 package test.java.server.response;
 
-import main.java.application.Handler;
+import main.java.server.response.Handler;
 import main.java.server.request.Request;
 import main.java.server.response.Response;
 import main.java.server.Router;
@@ -9,9 +9,9 @@ import java.util.HashMap;
 import java.util.TreeMap;
 
 public class RoutesStub {
-    static TreeMap<String, HashMap<String, Handler>> ROUTES;
+    public static TreeMap<String, HashMap<String, Handler>> ROUTES;
 
-    RoutesStub() {
+    public RoutesStub() {
         Router router = new Router();
         router.get("/simple_get", HandlersStub.SimpleGet);
 

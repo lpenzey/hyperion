@@ -1,6 +1,6 @@
 package test.java.server;
 
-import main.java.application.Handler;
+import main.java.server.response.Handler;
 import main.java.server.request.Request;
 import main.java.server.request.StatusLine;
 import test.java.server.response.RoutesStub.HandlersStub;

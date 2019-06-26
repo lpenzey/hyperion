@@ -30,6 +30,7 @@ public class ResponseFormatter {
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
+
         return null;
     }
 }
