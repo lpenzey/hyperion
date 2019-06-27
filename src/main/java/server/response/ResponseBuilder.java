@@ -2,8 +2,9 @@ package main.java.server.response;
 
 import main.java.server.request.Request;
 
-import java.util.HashMap;
-import java.util.Set;
+import java.io.IOException;
+import java.net.*;
+import java.util.*;
 
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
 import static main.java.server.HTTPMessageComponents.StatusCodes.*;
@@ -16,8 +17,17 @@ public class ResponseBuilder {
     }
 
     public Response redirect(Request request, String redirectLocation) {
-        HashMap<String, String> headers = addLocationHeader(redirectLocation);
-
+        HashMap<String, String> headers = null;
+        try {
+            String hostName = request.getHeaders().get("Host");
+            if (!hostName.contains(".com")) {
+                headers = addLocationHeader("http://" + hostName + ":5000" + redirectLocation);
+            } else {
+                headers = addLocationHeader("http://" + hostName + redirectLocation);
+            }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
         return new Response(VERSION + SP + REDIRECT + CRLF, headers, "");
     }
 
@@ -34,7 +44,7 @@ public class ResponseBuilder {
         return new Response(VERSION + SP + NOT_ALLOWED + CRLF, headers, "");
     }
 
-    private HashMap<String, String> addLocationHeader(String redirectLocation) {
+    private HashMap<String, String> addLocationHeader(String redirectLocation) throws UnknownHostException {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Location", redirectLocation);
 

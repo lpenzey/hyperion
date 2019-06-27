@@ -1,7 +1,5 @@
 package main.java.server.request;
 
-import java.util.HashMap;
-
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.CRLF;
 
 public class RequestParser {
@@ -23,20 +21,20 @@ public class RequestParser {
     private StatusLine buildStatusLine(String incomingRequest) {
         String[] segmentedStatusLine = incomingRequest.split(CRLF)[0].split(" ");
 
-        return new StatusLine(getMethod(segmentedStatusLine), getPath(segmentedStatusLine), getVersion(segmentedStatusLine));
+        return new StatusLine(
+                getMethod(segmentedStatusLine),
+                getPath(segmentedStatusLine),
+                getVersion(segmentedStatusLine));
     }
 
     private Headers buildHeaders(String incomingRequest) {
         String[] segmentedHeaders = incomingRequest.split(CRLF + CRLF)[0].split("\n");
         Headers requestHeaders = new Headers();
 
-        HashMap<String, String> headersMap = new HashMap<String, String>();
         for (int i = 1; i < segmentedHeaders.length; i++) {
             String[] header = segmentedHeaders[i].split(":");
-            headersMap.put(header[0].trim(), header[1].trim());
+            requestHeaders.addHeader(header[0].trim(), header[1].trim());
         }
-
-        requestHeaders.setHeaders(headersMap);
 
         return requestHeaders;
     }

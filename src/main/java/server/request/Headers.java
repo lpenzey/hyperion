@@ -6,8 +6,12 @@ public class Headers {
 
     private HashMap<String, String> requestHeaders;
 
-    public void setHeaders(HashMap<String, String> headers) {
-        this.requestHeaders = headers;
+    public Headers() {
+        this.requestHeaders = new HashMap<>();
+    }
+
+    public void addHeader(String key, String value) {
+        this.requestHeaders.put(key, value);
     }
 
     public HashMap<String, String> getHeaders() {

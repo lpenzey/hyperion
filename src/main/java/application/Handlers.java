@@ -8,5 +8,5 @@ class Handlers {
     static final Handler GetWithBody = (Request request) -> HandlerHelper.assembleResponse(request, "");
     static final Handler SimpleOptions = (Request request) -> HandlerHelper.assembleResponse(request, "");
     static final Handler EchoBody = (Request request) -> HandlerHelper.assembleResponse(request, request.getBody());
-    static final Handler Redirect = (Request request) -> HandlerHelper.redirect(request, "http://127.0.0.1:5000/simple_get");
+    static final Handler Redirect = (Request request) -> HandlerHelper.redirect(request, "/simple_get");
 }
