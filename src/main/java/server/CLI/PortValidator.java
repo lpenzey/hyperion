@@ -18,7 +18,7 @@ public class PortValidator implements IParameterValidator {
             ServerLogger.serverLogger.log(Level.FINE, "Error: " + e);
         }
 
-        if (n < 1024 || n > 49151)
-            throw new ParameterException("Parameter " + name + " should be a number between 1024 and 49151 (found " + value + ")");
+        if (n < 1024 || n > 60000)
+            throw new ParameterException("Parameter " + name + " should be a number between 1024 and 60000 (found " + value + ")");
         }
 }

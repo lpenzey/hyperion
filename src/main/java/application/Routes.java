@@ -8,6 +8,8 @@ import java.util.TreeMap;
 
 public class Routes {
     public static TreeMap<String, HashMap<String, Handler>> ROUTES;
+    public static Router ROUTER;
+
     static {
         Router router = new Router();
         router.get("/simple_get", Handlers.SimpleGet);
@@ -34,5 +36,6 @@ public class Routes {
         router.get("/", Handlers.SimpleGet);
 
         ROUTES = router.routes();
+        ROUTER = router;
     }
 }

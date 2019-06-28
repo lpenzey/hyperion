@@ -23,7 +23,7 @@ public class Server {
     public static void main(String[] args) {
             Args clArgs = new Args();
             JCommander jcParser = new JCommander(clArgs);
-            App app = new App(Routes.ROUTES);
+            App app = new App(new Routes());
 
             try {
                 jcParser.parse(args);
