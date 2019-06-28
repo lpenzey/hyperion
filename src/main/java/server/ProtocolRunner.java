@@ -28,8 +28,6 @@ public class ProtocolRunner implements Runnable {
     public void run() {
         try {
             String input = client.chunkStream();
-            String fullHost = client.getAddressAndPort();
-            System.out.println(fullHost);
 
             if(input != null) {
                 Request request = requestParser.create(input);
