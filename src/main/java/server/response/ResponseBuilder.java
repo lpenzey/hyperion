@@ -17,16 +17,14 @@ public class ResponseBuilder {
     }
 
     public Response redirect(Request request, String redirectLocation) {
-        HashMap<String, String> headers = null;
-        try {
+        HashMap<String, String> headers = new HashMap<>();
+
             String hostName = request.getHeaders().get("Host");
             if (!hostName.contains(".com")) {
                 headers = addLocationHeader("http://" + hostName + ":5000" + redirectLocation);
             } else {
-                headers = addLocationHeader("http://" + hostName + redirectLocation);
-            }
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
+                headers = addLocationHeader(hostName + redirectLocation);
+
         }
         return new Response(VERSION + SP + REDIRECT + CRLF, headers, "");
     }
@@ -44,7 +42,7 @@ public class ResponseBuilder {
         return new Response(VERSION + SP + NOT_ALLOWED + CRLF, headers, "");
     }
 
-    private HashMap<String, String> addLocationHeader(String redirectLocation) throws UnknownHostException {
+    private HashMap<String, String> addLocationHeader(String redirectLocation) {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Location", redirectLocation);
 
