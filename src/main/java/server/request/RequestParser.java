@@ -32,7 +32,7 @@ public class RequestParser {
         Headers requestHeaders = new Headers();
 
         for (int i = 1; i < segmentedHeaders.length; i++) {
-            String[] header = segmentedHeaders[i].split(":");
+            String[] header = segmentedHeaders[i].split(": ");
             requestHeaders.addHeader(header[0].trim(), header[1].trim());
         }
 
@@ -44,7 +44,7 @@ public class RequestParser {
         if (segmentedRequest.length > 1) {
             return segmentedRequest[1];
         }
-        return "";
+        return null;
     }
 
     private String getMethod(String[] segmentedStatusLine) {

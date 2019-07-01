@@ -18,6 +18,10 @@ public class RequestParserTest {
     private static final String SIMPLE_GET = "GET /simple_get HTTP/1.1\r\n";
     private static final String MALFORMED_REQUEST = "GET /simple_get\r\n";
     private static final String SIMPLE_GET_PATH = "/simple_get";
+    private static final String LOCAL_HOST_REQUEST = "GET /a_path HTTP/1.1\r\n" +
+            "Host: 127.0.0.1:5000\r\n" +
+            "Connection: Keep-Alive\r\n\r\n" +
+            "Request body";
     private static final String REQUEST_WITH_HEADERS_AND_BODY = "GET /a_path HTTP/1.1\r\n" +
             "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3)\n" +
             "Host: isitchristmas.com\n" +
@@ -59,12 +63,12 @@ public class RequestParserTest {
     }
 
     @Test
-    public void handlesNullRequest() {
+    public void parsesRequestFromLocalHost() {
         try {
-            requestParser.create(MALFORMED_REQUEST);
-            fail();
+            Request localHostRequest = requestParser.create(LOCAL_HOST_REQUEST);
+            assertEquals("127.0.0.1:5000", localHostRequest.getHeaders().get("Host"));
         } catch (RequestParseException e) {
-            assertEquals(RequestParseException.class, e.getClass());
+            e.printStackTrace();
         }
     }
 }
