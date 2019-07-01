@@ -1,6 +1,5 @@
 package test.java.server;
 
-import main.java.application.HandlerHelper;
 import main.java.server.request.Headers;
 import main.java.server.response.Handler;
 import main.java.server.request.Request;
@@ -8,6 +7,7 @@ import main.java.server.request.StatusLine;
 import main.java.server.response.Response;
 
 import main.java.server.Router;
+import main.java.server.response.ResponseTypes;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -64,7 +64,7 @@ public class RouterTest {
     @Test
     public void canProcessRedirectRequestIfRouteHasBeenAdded()  {
         Headers requestHeaders = new Headers();
-        requestHeaders.addHeader("Host", "127.0.0.1");
+        requestHeaders.addHeader("Host", "127.0.0.1:5000");
         Request redirectRequest = new Request(new StatusLine(GET, "/redirect", VERSION), requestHeaders, "");
         Response redirectResponse = router.generateResponse(redirectRequest);
 
@@ -98,11 +98,11 @@ public class RouterTest {
 
 
     static class HandlersStub {
-        static final Handler SimpleGet = (Request request) -> HandlerHelper.assembleResponse(request, "");
-        static final Handler GetWithBody = (Request request) -> HandlerHelper.assembleResponse(request, "");
-        static final Handler SimpleOptions = (Request request) -> HandlerHelper.assembleResponse(request, "");
-        static final Handler EchoBody = (Request request) -> HandlerHelper.assembleResponse(request, request.getBody());
-        static final Handler Redirect = (Request request) -> HandlerHelper.redirect(request, "/redirected_uri");
+        static final Handler SimpleGet = (Request request) -> ResponseTypes.assembleResponse(request, "");
+        static final Handler GetWithBody = (Request request) -> ResponseTypes.assembleResponse(request, "");
+        static final Handler SimpleOptions = (Request request) -> ResponseTypes.assembleResponse(request, "");
+        static final Handler EchoBody = (Request request) -> ResponseTypes.assembleResponse(request, request.getBody());
+        static final Handler Redirect = (Request request) -> ResponseTypes.redirect(request, "/redirected_uri");
     }
 
 }

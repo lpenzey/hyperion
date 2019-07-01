@@ -3,7 +3,7 @@ package main.java.server;
 import main.java.server.request.Request;
 import main.java.server.response.Handler;
 import main.java.server.response.Response;
-import main.java.server.response.ResponseBuilder;
+import main.java.server.response.ResponseTypes;
 
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -39,17 +39,16 @@ public class Router implements Handler {
     }
 
     public Response generateResponse(Request request) {
-        ResponseBuilder builder = new ResponseBuilder();
 
         if (!pathExists(request)) {
 
-            return builder.notFound(request);
+            return ResponseTypes.notFound(request);
         }
 
         if (!methodAllowed(request)) {
             HashMap<String, Handler> pathMethods = routes.get(request.getRequestPath());
 
-            return builder.notAllowed(request, pathMethods);
+            return ResponseTypes.notAllowed(request, pathMethods);
         }
 
         return routes.get(request.getRequestPath()).get(request.getRequestMethod()).generateResponse(request);

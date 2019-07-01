@@ -3,7 +3,6 @@ package test.java.server.response;
 import main.java.server.response.Response;
 import org.junit.Test;
 
-import java.util.HashMap;
 
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
 import static org.junit.Assert.assertEquals;
@@ -14,19 +13,21 @@ public class ResponseTest {
 
     @Test
     public void statusLineIsCreatedCorrectly() {
-        Response response = new Response(VERSION + SP + OK + CRLF);
+        Response response = new Response.Builder()
+                .withStatus(VERSION + SP + OK + CRLF)
+                .build();
 
         assertEquals("HTTP/1.1 200 OK\r\n", response.getStatusLine());
     }
 
     @Test
     public void responseCreatedWithStatusLineAndHeaders() {
-        String statusLine = VERSION + SP + OK + CRLF;
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Allow:", "GET, HEAD, OPTIONS");
-        Response response = new Response(statusLine, headers);
+        Response response = new Response.Builder()
+                .withStatus(VERSION + SP + OK + CRLF)
+                .withHeader("Allow:", "GET, HEAD, OPTIONS")
+                .build();
 
         assertEquals("HTTP/1.1 200 OK\r\n", response.getStatusLine());
-        assertEquals(headers, response.getHeaders());
+        assertEquals("{Allow:=GET, HEAD, OPTIONS}", response.getHeaders().toString());
     }
 }

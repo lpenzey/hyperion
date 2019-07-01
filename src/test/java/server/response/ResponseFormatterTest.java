@@ -15,41 +15,42 @@ public class ResponseFormatterTest {
 
     @Test
     public void createsFormattedStringFromStatusLine() {
-        String statusLine = VERSION + SP + OK + CRLF;
+        Response response = new Response.Builder()
+                .withStatus(VERSION + SP + OK + CRLF)
+                .build();
 
-        Response response = new Response(statusLine);
         ResponseFormatter formatter = new ResponseFormatter(response);
 
-        assertEquals(statusLine, formatter.stringifyResponse());
+        assertEquals(VERSION + SP + OK + CRLF + CRLF + CRLF, formatter.stringifyResponse());
     }
 
     @Test
     public void convertsHeaderToString() {
-        String statusLine = VERSION + SP + OK + CRLF;
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Allow", "GET, HEAD, OPTIONS");
-        headers.put("Content-Type", "text/html; charset=utf-8");
+        Response response = new Response.Builder()
+                .withStatus(VERSION + SP + OK + CRLF)
+                .withHeader(ALLOW, "GET, HEAD, OPTIONS")
+                .withHeader("Content-Type", "text/html; charset=utf-8")
+                .withHeader(LOCATION, "http://127.0.0.1:5000/redirect")
+                .build();
 
-        Response response = new Response(statusLine, headers, "");
         ResponseFormatter formatter = new ResponseFormatter(response);
 
         String fullResponse = formatter.stringifyResponse();
-        String expectedResponse = "HTTP/1.1 200 OK\r\nAllow:GET, HEAD, OPTIONS\r\nContent-Type:text/html; charset=utf-8\r\n\r\n";
+        String expectedResponse = "HTTP/1.1 200 OK\r\nAllow:GET, HEAD, OPTIONS\r\nContent-Type:text/html; charset=utf-8\r\nLocation:http://127.0.0.1:5000/redirect\r\n\r\n";
 
         assertEquals(expectedResponse, fullResponse);
     }
 
     @Test
     public void willWorkWithPostmanRequests() {
-        String statusLine = VERSION + SP + OK + CRLF;
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Allow", "GET, HEAD, OPTIONS");
+        Response response = new Response.Builder()
+                .withStatus(VERSION + SP + OK + CRLF)
+                .build();
 
-        Response response = new Response(statusLine, headers, "");
         ResponseFormatter formatter = new ResponseFormatter(response);
 
         String fullResponse = formatter.stringifyResponse();
-
+        System.out.println(fullResponse);
         assertTrue(fullResponse.contains("\r\n\r\n"));
     }
 }
