@@ -16,7 +16,9 @@ public class RequestParserTest {
     private RequestParser requestParser;
 
     private static final String SIMPLE_GET = "GET /simple_get HTTP/1.1\r\n";
-    private static final String MALFORMED_REQUEST = "GET /simple_get\r\n";
+    private static final String NO_VERSION_REQUEST = "GET /simple_get\r\n";
+    private static final String NO_SPACE_REQUEST = "GET/simple_getHTTP1/1\r\n";
+    private static final String NO_METHOD_REQUEST = "/simple_get HTTP1/1\r\n";
     private static final String SIMPLE_GET_PATH = "/simple_get";
     private static final String LOCAL_HOST_REQUEST = "GET /a_path HTTP/1.1\r\n" +
             "Host: 127.0.0.1:5000\r\n" +
@@ -53,9 +55,29 @@ public class RequestParserTest {
     }
 
     @Test
-    public void throwsRequestParseExceptionWhenRequestLineIsMalformed() {
+    public void throwsRequestParseExceptionWhenRequestHasNoVersion() {
         try {
-            requestParser.create(MALFORMED_REQUEST);
+            requestParser.create(NO_VERSION_REQUEST);
+            fail();
+        } catch (RequestParseException e) {
+            assertEquals(RequestParseException.class, e.getClass());
+        }
+    }
+
+    @Test
+    public void throwsRequestParseExceptionWhenRequestHasImproperSpacing() {
+        try {
+            requestParser.create(NO_SPACE_REQUEST);
+            fail();
+        } catch (RequestParseException e) {
+            assertEquals(RequestParseException.class, e.getClass());
+        }
+    }
+
+    @Test
+    public void throwsRequestParseExceptionWhenRequestHasNoMethod() {
+        try {
+            requestParser.create(NO_METHOD_REQUEST);
             fail();
         } catch (RequestParseException e) {
             assertEquals(RequestParseException.class, e.getClass());
