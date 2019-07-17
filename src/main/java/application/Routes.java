@@ -1,12 +1,15 @@
 package main.java.application;
 
 import main.java.server.Router;
+import main.java.server.response.Handler;
 
 import java.util.HashMap;
 import java.util.TreeMap;
 
 public class Routes {
-    private static TreeMap<String, HashMap<String, Handler>> ROUTES;
+    public static TreeMap<String, HashMap<String, Handler>> ROUTES;
+    public static Router ROUTER;
+
     static {
         Router router = new Router();
         router.get("/simple_get", Handlers.SimpleGet);
@@ -28,10 +31,11 @@ public class Routes {
 
         router.post("/echo_body", Handlers.EchoBody);
 
-        ROUTES = router.routes();
-    }
+        router.get("/redirect", Handlers.Redirect);
 
-    public static TreeMap<String, HashMap<String, Handler>> getROUTES() {
-        return ROUTES;
+        router.get("/", Handlers.SimpleGet);
+
+        ROUTES = router.routes();
+        ROUTER = router;
     }
 }

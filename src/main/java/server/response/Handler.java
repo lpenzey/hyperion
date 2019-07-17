@@ -1,6 +1,5 @@
-package main.java.application;
+package main.java.server.response;
 
-import main.java.server.response.Response;
 import main.java.server.request.Request;
 
 @FunctionalInterface

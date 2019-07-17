@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/lpenzey/hyperion.svg?branch=master)](https://travis-ci.org/lpenzey/hyperion) [![Maintainability](https://api.codeclimate.com/v1/badges/60d82bfebc6fec4f85d7/maintainability)](https://codeclimate.com/github/lpenzey/hyperion/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/60d82bfebc6fec4f85d7/test_coverage)](https://codeclimate.com/github/lpenzey/hyperion/test_coverage)
+[![Build Status](https://travis-ci.org/lpenzey/hyperion.svg?branch=master)](https://travis-ci.org/lpenzey/hyperion) [![Maintainability](https://api.codeclimate.com/v1/badges/60d82bfebc6fec4f85d7/maintainability)](https://codeclimate.com/github/lpenzey/hyperion/maintainability) 
 
 
 
 ### Hyperion HTTP Server
-A web server that implements HTTP written in Java. 
+An HTTP server written in Java. See example of deployed server [here](https://hyperion-http-server.herokuapp.com/).
 
 ### Requirements
 - Software: [Java 11](https://adoptopenjdk.net/)
@@ -31,13 +31,14 @@ $ java -jar build/libs/hyperion.jar -port=5000
 localhost:5000/simple_get
 ```
 
-#### Working Features
+#### Supported HTTP Methods/Features
 
-1. Executing a simple GET request
-2. Executing a simple HEAD request
-3. Returning a not found response
-4. Simple OPTIONS request
-5. Method not allowed response
+1. GET request
+2. HEAD request
+3. OPTIONS request
+4. POST request
+5. Returning a not found response
+6. Method not allowed response
 
 ### Running the tests
 In the terminal window, navigate to the project's root folder and run the following command:

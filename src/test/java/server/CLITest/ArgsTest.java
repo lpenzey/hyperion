@@ -34,18 +34,18 @@ public class ArgsTest {
             jc.parse(argv);
             fail();
         } catch (ParameterException e) {
-            assertEquals("Parameter -port should be a number between 1024 and 49151 (found 1023)", e.getMessage());
+            assertEquals("Parameter -port should be a number between 1024 and 60000 (found 1023)", e.getMessage());
         }
     }
 
     @Test
     public void throwsExceptionIfPortIsOver49151()  {
         try {
-            String[] argv = {"-port=49152"};
+            String[] argv = {"-port=61000"};
             jc.parse(argv);
             fail();
         } catch (ParameterException e) {
-            assertEquals("Parameter -port should be a number between 1024 and 49151 (found 49152)", e.getMessage());
+            assertEquals("Parameter -port should be a number between 1024 and 60000 (found 61000)", e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class ArgsTest {
             jc.parse(argv);
             fail();
         } catch (ParameterException e) {
-            assertEquals("Parameter -port should be a number between 1024 and 49151 (found hello)", e.getMessage());
+            assertEquals("Parameter -port should be a number between 1024 and 60000 (found hello)", e.getMessage());
         }
     }
 

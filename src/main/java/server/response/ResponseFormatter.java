@@ -14,12 +14,9 @@ public class ResponseFormatter {
 
     public String stringifyResponse() {
         String responseString = response.getStatusLine();
-        if (response.getHeaders() != null) {
-            String stringHeaders = convertHeadersToString(response.getHeaders());
-            return responseString + stringHeaders + CRLF + CRLF + response.getBody();
-        }
+        String stringHeaders = convertHeadersToString(response.getHeaders());
 
-        return responseString;
+        return responseString + stringHeaders + CRLF + CRLF + response.getBody();
     }
 
     private String convertHeadersToString(HashMap<String, String> headers) {
@@ -30,6 +27,7 @@ public class ResponseFormatter {
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-        return null;
+
+        return "";
     }
 }

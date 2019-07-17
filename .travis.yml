@@ -13,11 +13,13 @@ cache:
 
 script:
   - ./gradlew test
+  - java -jar build/libs/hyperion.jar -port=5000 &
+  - ./acceptance-tests.sh
 
 deploy:
   provider: heroku
   api_key:
     secure: "lUMAHfadwvQz4BVT2P3W0v8HdRRV49Gf4vOk0F79YF7scynE579idi/fnwbFvbFxZh7JHxFxG5x0wEa4H2md3aOhv3+Yq02gb3txjxTedKgqCSMJMgKgiYrc+0h6cRVa15JuY2AtO8jHomDpraVjoRElyqku9TkQEqJW2lQ/ecLqq3brSVwGyjZ3scME3cW1CIsF9k9LSUmxTRKvV7SsVfxoD5k7ni0CZyY7K8eJP5dVzIEOD+xhe7BvQjNq6oa8Uqln5WSKhd2S8wwttrlrYW07nA/0eEbeJADQ7jec5jIKFLbut6Hmva3Fe7hPo3QzPgj4+UJhABMIaPgtSNp4TOh7zYmBsfcJ7Lq+fAnU+9rZEtFN2GuaFtbqLtfAk8QPZ7y/BZvR6g9s8lgcUxiv7szio9+WnHTULaGqKTsDtxpvDX64wPTVK1lsAZg/caulCxDD0zrER7IOQSBK+AGYBN4ghGfQvX7C2KzBcVAkREOuB8rcxqFJ016ngtsxPMAMSLryTvJRCRZXd6VJeg6D8i/Bq9ZwqoHTU7KOn1nkPpfJlHfW/pctv4dWKtB4FoSkarBEB4NiTp1TbsuFPXJEr1/rBh+597Sy2pgL2tS9ZrftqvUzUXvymROfwj71VA4+XrzzKyjb4a1P8u1+ZwqYjsHmQA2wuajxGn7bX/dlmX8="
-  app: hyperion-http-server
+  app: hyperion-staging
   on:
     repo: lpenzey/hyperion

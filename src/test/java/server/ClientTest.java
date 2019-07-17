@@ -24,6 +24,7 @@ public class ClientTest {
     @Test
     public void canReadFromSocket() throws IOException {
         BufferedReader reader = client.getReader();
+
         assertEquals("message", reader.readLine());
     }
 
@@ -31,6 +32,7 @@ public class ClientTest {
     public void canWriteToSocket() {
         PrintWriter writer = client.getWriter();
         writer.println("message");
+
         assertEquals("message\n", socketStub.getOutputStream().toString());
     }
 
@@ -39,5 +41,12 @@ public class ClientTest {
         client.close();
 
         assertTrue(socketStub.isClosed());
+    }
+
+    @Test
+    public void canGetChunkFromStream() {
+        String incomingRequest = client.chunkStream();
+
+        assertEquals("message", incomingRequest);
     }
 }
