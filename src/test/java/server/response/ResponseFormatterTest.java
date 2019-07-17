@@ -4,8 +4,6 @@ import main.java.server.response.Response;
 import main.java.server.response.ResponseFormatter;
 import org.junit.Test;
 
-import java.util.HashMap;
-
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertTrue;
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;

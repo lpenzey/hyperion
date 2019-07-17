@@ -96,7 +96,6 @@ public class RouterTest {
         assertTrue(notAllowedResponse.getBody().isEmpty());
     }
 
-
     static class HandlersStub {
         static final Handler SimpleGet = (Request request) -> ResponseTypes.assembleResponse(request, "");
         static final Handler GetWithBody = (Request request) -> ResponseTypes.assembleResponse(request, "");

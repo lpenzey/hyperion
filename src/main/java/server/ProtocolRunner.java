@@ -3,7 +3,6 @@ package main.java.server;
 import java.io.PrintWriter;
 import java.util.logging.Level;
 
-import main.java.application.App;
 import main.java.server.request.Request;
 import main.java.server.request.RequestParseException;
 import main.java.server.request.RequestParser;
@@ -15,14 +14,13 @@ public class ProtocolRunner implements Runnable {
     private final RequestParser requestParser = new RequestParser();
     private final Client client;
     private final PrintWriter out;
-    private final App app;
+
     private final Router router;
 
-    ProtocolRunner(Client client, App app) {
-        this.app = app;
+    ProtocolRunner(Client client, Router router) {
         this.client = client;
         this.out = client.getWriter();
-        this.router = app.router();
+        this.router = router;
     }
 
     public void run() {

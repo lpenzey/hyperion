@@ -9,4 +9,3 @@ public class HTTPSyntax {
     public static final String HOST = "Host";
     public static final String URL_PREFIX = "http://";
 }
-

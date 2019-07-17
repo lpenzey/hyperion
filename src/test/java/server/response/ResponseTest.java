@@ -3,7 +3,6 @@ package test.java.server.response;
 import main.java.server.response.Response;
 import org.junit.Test;
 
-
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
 import static org.junit.Assert.assertEquals;
 

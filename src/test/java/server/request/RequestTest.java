@@ -10,8 +10,6 @@ import static main.java.server.HTTPMessageComponents.HTTPSyntax.VERSION;
 import static org.junit.Assert.assertEquals;
 
 public class RequestTest {
-    private Request request;
-
 
     @Test
     public void statusLineIsCreatedCorrectly() {
