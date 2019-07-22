@@ -1,14 +1,10 @@
 package main.java.server;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.ParameterException;
 import main.java.application.Routes;
-import main.java.server.CLI.Args;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.logging.Level;
 
 public class Server {
     private Router router;
@@ -21,20 +17,7 @@ public class Server {
         this.router = router;
     }
 
-    public static void main(String[] args) {
-            Args clArgs = new Args();
-            JCommander jcParser = new JCommander(clArgs);
-
-            try {
-                jcParser.parse(args);
-                Server server = new Server(clArgs.getPort(), Routes.ROUTER);
-                server.start();
-            } catch (ParameterException | IOException e) {
-                ServerLogger.serverLogger.log(Level.WARNING, "Error: " + e.getMessage());
-            }
-    }
-
-    private void start() throws IOException {
+    public void start() throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Listening for connection...");
         while(serverIsRunning) {

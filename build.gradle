@@ -7,13 +7,13 @@ repositories {
 }
 
 application {
-    mainClassName = '.Server'
+    mainClassName = 'application.Application'
 }
 
 jar {
     manifest {
         attributes(
-                'Main-Class': 'main/java/server/Server'
+                'Main-Class': 'main/java/application/Application'
         )
     }
     doFirst {
