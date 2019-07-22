@@ -10,14 +10,14 @@ import main.java.server.response.Response;
 import main.java.server.response.ResponseFormatter;
 
 
-public class ProtocolRunner implements Runnable {
+public class ServerRunner implements Runnable {
     private final RequestParser requestParser = new RequestParser();
     private final Client client;
     private final PrintWriter out;
 
     private final Router router;
 
-    ProtocolRunner(Client client, Router router) {
+    ServerRunner(Client client, Router router) {
         this.client = client;
         this.out = client.getWriter();
         this.router = router;
@@ -27,7 +27,7 @@ public class ProtocolRunner implements Runnable {
         try {
             String input = client.chunkStream();
             if(input != null) {
-                System.out.println("Client request received");
+                System.out.println("Client request received on "+ Thread.currentThread().getName());
                 Request request = requestParser.create(input);
                 Response response = router.generateResponse(request);
                 ResponseFormatter formatter = new ResponseFormatter(response);

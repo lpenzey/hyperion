@@ -1,16 +1,14 @@
 package main.java.server;
 
-import main.java.application.Routes;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-    private Router router;
+
     private Integer port;
     private boolean serverIsRunning = true;
-    private Routes routes;
+    private Router router;
 
     public Server(Integer port, Router router) {
         this.port = port;
@@ -23,7 +21,7 @@ public class Server {
         while(serverIsRunning) {
             Socket clientSocket = serverSocket.accept();
             Client client = new Client(clientSocket);
-            ProtocolRunner protocol = new ProtocolRunner(client, Routes.ROUTER);
+            ServerRunner protocol = new ServerRunner(client, router);
             (new Thread(protocol)).start();
         }
         serverSocket.close();
