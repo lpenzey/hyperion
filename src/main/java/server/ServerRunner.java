@@ -14,7 +14,6 @@ public class ServerRunner implements Runnable {
     private final RequestParser requestParser = new RequestParser();
     private final Client client;
     private final PrintWriter out;
-
     private final Router router;
 
     ServerRunner(Client client, Router router) {
@@ -26,14 +25,19 @@ public class ServerRunner implements Runnable {
     public void run() {
         try {
             String input = client.chunkStream();
-            if(input != null) {
+
+            if(!input.isEmpty()) {
                 System.out.println("Client request received on "+ Thread.currentThread().getName());
+
                 Request request = requestParser.create(input);
                 Response response = router.generateResponse(request);
                 ResponseFormatter formatter = new ResponseFormatter(response);
+
                 out.print(formatter.stringifyResponse());
+
                 System.out.println("Response sent\n");
                 System.out.println("Listening for connection...");
+
                 out.flush();
                 client.close();
             }
