@@ -26,13 +26,14 @@ public class ProtocolRunner implements Runnable {
     public void run() {
         try {
             String input = client.chunkStream();
-
             if(input != null) {
+                System.out.println("Client request received");
                 Request request = requestParser.create(input);
                 Response response = router.generateResponse(request);
                 ResponseFormatter formatter = new ResponseFormatter(response);
-
                 out.print(formatter.stringifyResponse());
+                System.out.println("Response sent\n");
+                System.out.println("Listening for connection...");
                 out.flush();
                 client.close();
             }

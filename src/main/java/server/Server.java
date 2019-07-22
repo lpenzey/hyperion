@@ -8,6 +8,7 @@ import main.java.server.CLI.Args;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Level;
 
 public class Server {
     private Router router;
@@ -29,12 +30,13 @@ public class Server {
                 Server server = new Server(clArgs.getPort(), Routes.ROUTER);
                 server.start();
             } catch (ParameterException | IOException e) {
-                System.out.println(e.getMessage());
+                ServerLogger.serverLogger.log(Level.WARNING, "Error: " + e.getMessage());
             }
     }
 
     private void start() throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
+        System.out.println("Listening for connection...");
         while(serverIsRunning) {
             Socket clientSocket = serverSocket.accept();
             Client client = new Client(clientSocket);
