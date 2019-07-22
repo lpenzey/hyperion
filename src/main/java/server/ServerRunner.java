@@ -16,7 +16,7 @@ public class ServerRunner implements Runnable {
     private final PrintWriter out;
     private final Router router;
 
-    ServerRunner(Client client, Router router) {
+    public ServerRunner(Client client, Router router) {
         this.client = client;
         this.out = client.getWriter();
         this.router = router;
