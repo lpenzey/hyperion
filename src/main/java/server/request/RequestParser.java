@@ -1,5 +1,7 @@
 package main.java.server.request;
 
+import main.java.server.HTTPMessageComponents.HTTPMethods;
+
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.CRLF;
 
 public class RequestParser {
@@ -47,8 +49,9 @@ public class RequestParser {
         return null;
     }
 
-    private String getMethod(String[] segmentedStatusLine) {
-        return segmentedStatusLine[REQUEST_METHOD_INDEX];
+    private HTTPMethods getMethod(String[] segmentedStatusLine) {
+        HTTPMethods method = HTTPMethods.valueOf(segmentedStatusLine[REQUEST_METHOD_INDEX]);
+        return method;
     }
 
     private String getPath(String[] segmentedStatusLine) {

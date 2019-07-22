@@ -1,11 +1,13 @@
 package main.java.server.request;
 
+import main.java.server.HTTPMessageComponents.HTTPMethods;
+
 public class StatusLine {
-    private String method;
+    private HTTPMethods method;
     private String path;
     private String version;
 
-    public StatusLine(String method, String path, String version) {
+    public StatusLine(HTTPMethods method, String path, String version) {
         this.method = method;
         this.path = path;
         this.version = version;
@@ -15,7 +17,7 @@ public class StatusLine {
         return path;
     }
 
-    public String getMethod() {
+    public HTTPMethods getMethod() {
         return method;
     }
 

@@ -1,5 +1,7 @@
 package main.java.server.request;
 
+import main.java.server.HTTPMessageComponents.HTTPMethods;
+
 import java.util.HashMap;
 
 public class Request {
@@ -27,7 +29,7 @@ public class Request {
         return requestStatusLine.getPath();
     }
 
-    public String getRequestMethod() {
+    public HTTPMethods getRequestMethod() {
         return requestStatusLine.getMethod();
     }
 
