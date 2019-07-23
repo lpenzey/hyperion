@@ -7,7 +7,7 @@ import java.net.Socket;
 public class Server {
 
     private Integer port;
-    private boolean serverIsRunning = true;
+    private boolean serverIsRunning = false;
     private Router router;
 
     public Server(Integer port, Router router) {
@@ -16,6 +16,7 @@ public class Server {
     }
 
     public void start() throws IOException {
+        serverIsRunning = true;
         ServerSocket serverSocket = new ServerSocket(port);
         System.out.println("Listening for connection on port " + port );
         while(serverIsRunning) {
