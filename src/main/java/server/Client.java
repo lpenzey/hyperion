@@ -31,7 +31,7 @@ public class Client {
             return input;
         } catch (IOException | StringIndexOutOfBoundsException error) {
             ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);
-            return null;
+            return error.getMessage();
         }
     }
 

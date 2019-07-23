@@ -8,6 +8,10 @@ import main.java.server.request.RequestParseException;
 import main.java.server.request.RequestParser;
 import main.java.server.response.Response;
 import main.java.server.response.ResponseFormatter;
+import main.java.server.response.ResponseTypes;
+
+import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
+import static main.java.server.HTTPMessageComponents.StatusCodes.INTERNAL_ERROR;
 
 
 public class ServerRunner implements Runnable {
@@ -23,9 +27,8 @@ public class ServerRunner implements Runnable {
     }
 
     public void run() {
-        try {
             String input = client.chunkStream();
-
+        try {
             if(!input.isEmpty()) {
                 System.out.println("Client request received on "+ Thread.currentThread().getName());
 
@@ -38,11 +41,19 @@ public class ServerRunner implements Runnable {
                 System.out.println("Response sent\n");
                 System.out.println("Listening for connection...");
 
-                out.flush();
-                client.close();
             }
         } catch(RequestParseException error) {
             ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);
+            out.print(internalErrorResponse());
         }
+        out.flush();
+        client.close();
+    }
+
+    private String internalErrorResponse(){
+        new ResponseTypes();
+        Response internalError = ResponseTypes.internalError();
+        ResponseFormatter formatter = new ResponseFormatter(internalError);
+        return formatter.stringifyResponse();
     }
 }

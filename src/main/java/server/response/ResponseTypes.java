@@ -44,4 +44,10 @@ public class ResponseTypes {
                 .withHeader(ALLOW, allowedMethods)
                 .build();
     }
+
+    public static Response internalError() {
+        return new Response.Builder()
+                .withStatus(VERSION + SP + INTERNAL_ERROR + CRLF)
+                .build();
+    }
 }
