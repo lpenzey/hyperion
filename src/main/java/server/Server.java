@@ -17,7 +17,7 @@ public class Server {
 
     public void start() throws IOException {
         ServerSocket serverSocket = new ServerSocket(port);
-        System.out.println("Listening for connection...");
+        System.out.println("Listening for connection on port " + port );
         while(serverIsRunning) {
             Socket clientSocket = serverSocket.accept();
             Client client = new Client(clientSocket);
