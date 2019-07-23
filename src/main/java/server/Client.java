@@ -21,13 +21,17 @@ public class Client {
     public PrintWriter getWriter() { return writer; }
 
     public String chunkStream() {
-        char[] charBuffer = new char[100000];
+        char[] charBuffer = new char[1000];
         try {
-            int bytes_read = reader.read(charBuffer);
-            return new String(charBuffer, 0, bytes_read);
+            String input = "";
+            while(reader.ready()) {
+                int bytes_read = reader.read(charBuffer);
+                input += new String(charBuffer, 0, bytes_read);
+            }
+            return input;
         } catch (IOException | StringIndexOutOfBoundsException error) {
             ServerLogger.serverLogger.log(Level.WARNING, "Error: " + error);
-            return null;
+            return error.getMessage();
         }
     }
 

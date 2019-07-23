@@ -1,5 +1,6 @@
 package main.java.server;
 
+import main.java.server.HTTPMessageComponents.HTTPMethods;
 import main.java.server.request.Request;
 import main.java.server.response.Handler;
 import main.java.server.response.Response;
@@ -33,9 +34,9 @@ public class Router implements Handler {
         addToRoutes(POST, path, handler);
     }
 
-    private void addToRoutes(String method, String path, Handler handler) {
+    private void addToRoutes(HTTPMethods method, String path, Handler handler) {
         routes.putIfAbsent(path, new HashMap<>());
-        routes.get(path).put(method, handler);
+        routes.get(path).put(method.name(), handler);
     }
 
     public Response generateResponse(Request request) {
@@ -51,7 +52,7 @@ public class Router implements Handler {
             return ResponseTypes.notAllowed(request, pathMethods);
         }
 
-        return routes.get(request.getRequestPath()).get(request.getRequestMethod()).generateResponse(request);
+        return routes.get(request.getRequestPath()).get(request.getRequestMethod().name()).generateResponse(request);
     }
 
     private boolean pathExists(Request request) {
@@ -63,6 +64,6 @@ public class Router implements Handler {
     private boolean methodAllowed(Request request) {
         return routes()
                 .get(request.getRequestPath())
-                .containsKey(request.getRequestMethod());
+                .containsKey(request.getRequestMethod().name());
     }
 }

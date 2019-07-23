@@ -24,4 +24,8 @@ class SocketStub extends Socket {
     public OutputStream getOutputStream() {
         return outputStream;
     }
+
+    public String printSentData() {
+        return outputStream.toString();
+    }
 }
