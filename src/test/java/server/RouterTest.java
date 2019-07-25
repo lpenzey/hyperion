@@ -23,6 +23,7 @@ public class RouterTest {
     public void setUp() {
         router = new Router();
         router.get("/simple_get", HandlersStub.SimpleGet);
+        router.get("/", HandlersStub.SimpleGet);
         router.head("/simple_get", HandlersStub.SimpleGet);
         router.get("/redirect", HandlersStub.Redirect);
         router.head("/get_with_body", HandlersStub.GetWithBody);
@@ -32,12 +33,29 @@ public class RouterTest {
         router.options("/method_options", HandlersStub.SimpleOptions);
         router.put("/method_options_2", HandlersStub.EchoBody);
         router.post("/echo_body", HandlersStub.EchoBody);
+        router.get("/http://www.ctabustracker.com/bustime/api/v2/getpredictions", HandlersStub.EchoBody);
     }
 
     @Test
     public void canProcessGETRequestIfRouteHasBeenAdded()  {
         Request simpleGetRequest = new Request(new StatusLine(GET, "/simple_get", VERSION));
         Response getResponse = router.generateResponse(simpleGetRequest);
+
+        assertEquals("HTTP/1.1 200 OK\r\n", getResponse.getStatusLine());
+    }
+
+    @Test
+    public void returns404IfRouteHasNotBeenAdded()  {
+        Request notFoundRequest = new Request(new StatusLine(GET, "/not_found", VERSION));
+        Response getResponse = router.generateResponse(notFoundRequest);
+
+        assertEquals("HTTP/1.1 404 Not Found\r\n", getResponse.getStatusLine());
+    }
+
+    @Test
+    public void canProcessProxyRequestIfRouteHasBeenAdded()  {
+        Request proxyRequest = new Request(new StatusLine(GET, "/http://www.ctabustracker.com/bustime/api/v2/getpredictions", VERSION));
+        Response getResponse = router.generateResponse(proxyRequest);
 
         assertEquals("HTTP/1.1 200 OK\r\n", getResponse.getStatusLine());
     }

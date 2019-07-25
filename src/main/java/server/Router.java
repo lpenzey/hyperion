@@ -7,6 +7,7 @@ import main.java.server.response.Response;
 import main.java.server.response.ResponseTypes;
 
 import java.util.HashMap;
+import java.util.Set;
 import java.util.TreeMap;
 
 import static main.java.server.HTTPMessageComponents.HTTPMethods.*;
@@ -40,30 +41,33 @@ public class Router implements Handler {
     }
 
     public Response generateResponse(Request request) {
+        String path = request.getRequestPath();
+        if(path.contains("?")){
+            path = path.split("\\?")[0];
+        }
 
-        if (!pathExists(request)) {
-
+        if (!pathExists(path)) {
             return ResponseTypes.notFound(request);
         }
 
-        if (!methodAllowed(request)) {
+        if (!methodAllowed(request, path)) {
             HashMap<String, Handler> pathMethods = routes.get(request.getRequestPath());
 
             return ResponseTypes.notAllowed(request, pathMethods);
         }
 
-        return routes.get(request.getRequestPath()).get(request.getRequestMethod().name()).generateResponse(request);
+        return routes.get(path).get(request.getRequestMethod().name()).generateResponse(request);
     }
 
-    private boolean pathExists(Request request) {
+    private boolean pathExists(String path) {
         return routes()
                 .keySet()
-                .contains(request.getRequestPath());
+                .contains(path);
     }
 
-    private boolean methodAllowed(Request request) {
+    private boolean methodAllowed(Request request, String path) {
         return routes()
-                .get(request.getRequestPath())
+                .get(path)
                 .containsKey(request.getRequestMethod().name());
     }
 }
