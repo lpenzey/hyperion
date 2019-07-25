@@ -10,10 +10,6 @@ import main.java.server.response.Response;
 import main.java.server.response.ResponseFormatter;
 import main.java.server.response.ResponseTypes;
 
-import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
-import static main.java.server.HTTPMessageComponents.StatusCodes.INTERNAL_ERROR;
-
-
 public class ServerRunner implements Runnable {
     private final RequestParser requestParser = new RequestParser();
     private final Client client;
