@@ -34,7 +34,7 @@ public class RouterTest {
         router.options("/method_options", HandlersStub.SimpleOptions);
         router.put("/method_options_2", HandlersStub.EchoBody);
         router.post("/echo_body", HandlersStub.EchoBody);
-        router.get("/http://www.ctabustracker.com/bustime/api/v2/getpredictions", HandlersStub.Proxy);
+        router.get("/getroutes", HandlersStub.Proxy);
     }
 
     @Test
@@ -55,7 +55,7 @@ public class RouterTest {
 
     @Test
     public void canProcessProxyRequestIfRouteHasBeenAdded()  {
-        Request proxyRequest = new Request(new StatusLine(GET, "/http://www.ctabustracker.com/bustime/api/v2/getpredictions?key=key&rt=20&stpid=456&format=json", VERSION));
+        Request proxyRequest = new Request(new StatusLine(GET, "/http://www.ctabustracker.com/bustime/api/v2/getroutes?key=key&rt=20&stpid=456&format=json", VERSION));
         Response getResponse = router.generateResponse(proxyRequest);
 
         assertEquals("HTTP/1.1 200 OK\r\n", getResponse.getStatusLine());
@@ -113,6 +113,22 @@ public class RouterTest {
         assertEquals("HTTP/1.1 405 Method Not Allowed\r\n", notAllowedResponse.getStatusLine());
         assertEquals("HEAD,OPTIONS", notAllowedResponse.getHeaders().get("Allow"));
         assertTrue(notAllowedResponse.getBody().isEmpty());
+    }
+
+    @Test
+    public void canCleanAProxyPathWithParams()  {
+        Request proxyPathRequest = new Request(new StatusLine(GET, "http://www.ctabustracker.com/bustime/api/v2/getroutes?key=g86g7g6g6g&rt=70@format=json", VERSION));
+        Response proxyPathResponse = router.generateResponse(proxyPathRequest);
+
+        assertEquals("HTTP/1.1 200 OK\r\n", proxyPathResponse.getStatusLine());
+    }
+
+    @Test
+    public void correctlyRoutesRoutePath()  {
+        Request routeRequest = new Request(new StatusLine(GET, "/", VERSION));
+        Response routeResponse = router.generateResponse(routeRequest);
+
+        assertEquals("HTTP/1.1 200 OK\r\n", routeResponse.getStatusLine());
     }
 
     static class HandlersStub {

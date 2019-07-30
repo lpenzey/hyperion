@@ -34,11 +34,11 @@ public class Routes {
 
         router.get("/redirect", Handlers.Redirect);
 
-        router.get("/http://www.ctabustracker.com/bustime/api/v2/getroutes", Handlers.Proxy);
-        router.get("/http://www.ctabustracker.com/bustime/api/v2/getpredictions", Handlers.Proxy);
-        router.get("/http://www.ctabustracker.com/bustime/api/v2/getpatterns", Handlers.Proxy);
-        router.get("/http://www.ctabustracker.com/bustime/api/v2/getstops", Handlers.Proxy);
-        router.get("/http://www.ctabustracker.com/bustime/api/v2/getdirections", Handlers.Proxy);
+        router.get("/getroutes", Handlers.Proxy);
+        router.get("/getpredictions", Handlers.Proxy);
+        router.get("/getpatterns", Handlers.Proxy);
+        router.get("/getstops", Handlers.Proxy);
+        router.get("/getdirections", Handlers.Proxy);
 
         ROUTES = router.routes();
         ROUTER = router;

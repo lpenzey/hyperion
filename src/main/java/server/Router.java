@@ -7,12 +7,13 @@ import main.java.server.response.Response;
 import main.java.server.response.ResponseTypes;
 
 import java.util.HashMap;
-import java.util.Set;
 import java.util.TreeMap;
 
 import static main.java.server.HTTPMessageComponents.HTTPMethods.*;
 
 public class Router implements Handler {
+    static public final String WITH_DELIMITER = "(?=%1$s)";
+
     public TreeMap<String, HashMap<String, Handler>> routes;
 
     public Router() { this.routes = new TreeMap<>(); }
@@ -41,17 +42,14 @@ public class Router implements Handler {
     }
 
     public Response generateResponse(Request request) {
-        String path = request.getRequestPath();
-        if(path.contains("?")){
-            path = path.split("\\?")[0];
-        }
+        String path = cleanPath(request.getRequestPath());
 
         if (!pathExists(path)) {
             return ResponseTypes.notFound(request);
         }
 
         if (!methodAllowed(request, path)) {
-            HashMap<String, Handler> pathMethods = routes.get(request.getRequestPath());
+            HashMap<String, Handler> pathMethods = routes.get(path);
 
             return ResponseTypes.notAllowed(request, pathMethods);
         }
@@ -69,5 +67,15 @@ public class Router implements Handler {
         return routes()
                 .get(path)
                 .containsKey(request.getRequestMethod().name());
+    }
+
+    private String cleanPath(String path){
+        String[] splitPath = path.split(String.format(WITH_DELIMITER, "/"));
+        String endPath = splitPath[splitPath.length - 1];
+
+        if(endPath.contains("?")){
+            endPath = endPath.split("\\?")[0];
+        }
+        return endPath;
     }
 }

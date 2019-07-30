@@ -63,6 +63,7 @@ public class ResponseTypes {
         }
         return new Response.Builder()
                 .withStatus(VERSION + SP + OK+ CRLF)
+                .withHeader(ALLOW, "GET")
                 .withBody(proxyPayload)
                 .build();
     }
