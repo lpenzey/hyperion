@@ -15,6 +15,7 @@ import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.assertEquals;
 import static main.java.server.HTTPMessageComponents.HTTPMethods.*;
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
+import static main.java.server.HTTPMessageComponents.StatusCodes.OK;
 
 public class RouterTest {
     private Router router;
@@ -23,6 +24,7 @@ public class RouterTest {
     public void setUp() {
         router = new Router();
         router.get("/simple_get", HandlersStub.SimpleGet);
+        router.get("/", HandlersStub.SimpleGet);
         router.head("/simple_get", HandlersStub.SimpleGet);
         router.get("/redirect", HandlersStub.Redirect);
         router.head("/get_with_body", HandlersStub.GetWithBody);
@@ -32,12 +34,29 @@ public class RouterTest {
         router.options("/method_options", HandlersStub.SimpleOptions);
         router.put("/method_options_2", HandlersStub.EchoBody);
         router.post("/echo_body", HandlersStub.EchoBody);
+        router.get("/getroutes", HandlersStub.Proxy);
     }
 
     @Test
     public void canProcessGETRequestIfRouteHasBeenAdded()  {
         Request simpleGetRequest = new Request(new StatusLine(GET, "/simple_get", VERSION));
         Response getResponse = router.generateResponse(simpleGetRequest);
+
+        assertEquals("HTTP/1.1 200 OK\r\n", getResponse.getStatusLine());
+    }
+
+    @Test
+    public void returns404IfRouteHasNotBeenAdded()  {
+        Request notFoundRequest = new Request(new StatusLine(GET, "/not_found", VERSION));
+        Response getResponse = router.generateResponse(notFoundRequest);
+
+        assertEquals("HTTP/1.1 404 Not Found\r\n", getResponse.getStatusLine());
+    }
+
+    @Test
+    public void canProcessProxyRequestIfRouteHasBeenAdded()  {
+        Request proxyRequest = new Request(new StatusLine(GET, "/http://www.ctabustracker.com/bustime/api/v2/getroutes?key=key&rt=20&stpid=456&format=json", VERSION));
+        Response getResponse = router.generateResponse(proxyRequest);
 
         assertEquals("HTTP/1.1 200 OK\r\n", getResponse.getStatusLine());
     }
@@ -96,12 +115,29 @@ public class RouterTest {
         assertTrue(notAllowedResponse.getBody().isEmpty());
     }
 
+    @Test
+    public void canCleanAProxyPathWithParams()  {
+        Request proxyPathRequest = new Request(new StatusLine(GET, "http://www.ctabustracker.com/bustime/api/v2/getroutes?key=g86g7g6g6g&rt=70@format=json", VERSION));
+        Response proxyPathResponse = router.generateResponse(proxyPathRequest);
+
+        assertEquals("HTTP/1.1 200 OK\r\n", proxyPathResponse.getStatusLine());
+    }
+
+    @Test
+    public void correctlyRoutesRoutePath()  {
+        Request routeRequest = new Request(new StatusLine(GET, "/", VERSION));
+        Response routeResponse = router.generateResponse(routeRequest);
+
+        assertEquals("HTTP/1.1 200 OK\r\n", routeResponse.getStatusLine());
+    }
+
     static class HandlersStub {
         static final Handler SimpleGet = (Request request) -> ResponseTypes.assembleResponse(request, "");
         static final Handler GetWithBody = (Request request) -> ResponseTypes.assembleResponse(request, "");
         static final Handler SimpleOptions = (Request request) -> ResponseTypes.assembleResponse(request, "");
         static final Handler EchoBody = (Request request) -> ResponseTypes.assembleResponse(request, request.getBody());
         static final Handler Redirect = (Request request) -> ResponseTypes.redirect(request, "/redirected_uri");
+        static final Handler Proxy = (Request request) ->  new Response.Builder().withStatus(VERSION + SP + OK + CRLF).build();
     }
 
 }

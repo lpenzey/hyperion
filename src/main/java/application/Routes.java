@@ -13,6 +13,7 @@ public class Routes {
     static {
         Router router = new Router();
         router.get("/simple_get", Handlers.SimpleGet);
+        router.get("/", Handlers.SimpleGet);
         router.head("/simple_get", Handlers.SimpleGet);
         router.options("/simple_get", Handlers.SimpleOptions);
 
@@ -33,7 +34,11 @@ public class Routes {
 
         router.get("/redirect", Handlers.Redirect);
 
-        router.get("/", Handlers.SimpleGet);
+        router.get("/getroutes", Handlers.Proxy);
+        router.get("/getpredictions", Handlers.Proxy);
+        router.get("/getpatterns", Handlers.Proxy);
+        router.get("/getstops", Handlers.Proxy);
+        router.get("/getdirections", Handlers.Proxy);
 
         ROUTES = router.routes();
         ROUTER = router;

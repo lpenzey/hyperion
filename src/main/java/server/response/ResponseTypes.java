@@ -1,10 +1,12 @@
 package main.java.server.response;
 
 import main.java.application.Routes;
+import main.java.server.ProxyHandler;
 import main.java.server.request.Request;
 import static main.java.server.HTTPMessageComponents.HTTPSyntax.*;
 import static main.java.server.HTTPMessageComponents.StatusCodes.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -48,6 +50,21 @@ public class ResponseTypes {
     public static Response internalError() {
         return new Response.Builder()
                 .withStatus(VERSION + SP + INTERNAL_ERROR + CRLF)
+                .build();
+    }
+
+    public static Response proxy(Request request, String s) {
+        String proxyPayload;
+        try {
+            proxyPayload = ProxyHandler.sendRequest(request);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseTypes.internalError();
+        }
+        return new Response.Builder()
+                .withStatus(VERSION + SP + OK+ CRLF)
+                .withHeader(ALLOW, "GET")
+                .withBody(proxyPayload)
                 .build();
     }
 }
